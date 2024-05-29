@@ -1,0 +1,35 @@
+.chatbox {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  
+    .chatbox-friends {
+      background-color: #34495e;
+      color: white;
+      padding: 10px;
+  
+      h3 {
+        margin: 0 0 10px 0;
+      }
+  
+      ul {
+        list-style: none;
+        padding: 0;
+  
+        li {
+          padding: 8px;
+          cursor: pointer;
+          &:hover {
+            background-color: #2c3e50;
+          }
+        }
+      }
+    }
+  }

@@ -13,9 +13,10 @@ interface PostProps {
   likes: number;
   comments: Comment[];
   postedAt: Date;
+  friendName:string;
 }
 
-const Post: React.FC<PostProps> = ({ photos, message, likes, comments }) => {
+const Post: React.FC<PostProps> = ({ photos, message, likes, comments,friendName,postedAt}) => {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
   const [commentList, setCommentList] = useState(comments);
@@ -40,10 +41,33 @@ const Post: React.FC<PostProps> = ({ photos, message, likes, comments }) => {
       setCommentList([...commentList, newCommentObj]);
       setNewComment('');
     }
+
+  };
+  const formatDate = (date: Date): string => {
+    const now = new Date();
+    const diffMillis = now.getTime() - date.getTime();
+    const diffSeconds = Math.floor(diffMillis / 1000);
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
+  
+    if (diffMinutes < 60) {
+      return `${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
+    } else if (diffHours < 24) {
+      return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+    } else {
+      const options: Intl.DateTimeFormatOptions = { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      };
+      return date.toLocaleDateString('en-US', options);
+    }
   };
 
   return (
     <div className="post">
+        <div className="post-user-name">{friendName}</div>
       <div className="post-photos">
         {photos.map((photo, index) => (
           <img key={index} src={photo} alt={`Post ${index}`} />
@@ -64,6 +88,7 @@ const Post: React.FC<PostProps> = ({ photos, message, likes, comments }) => {
           placeholder="Write a comment..."
         />
       </div>
+      <div className="date">{formatDate(postedAt)}</div>
       <div className="post-comments">
         <h4>Comments</h4>
         {commentList.length === 0 && <p>No comments yet.</p>}
